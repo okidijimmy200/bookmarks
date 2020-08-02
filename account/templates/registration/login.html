@@ -1,0 +1,38 @@
+<!-- Django default AuthenticationForm -->
+{% extends "base.html" %}
+
+{% block title %} log-in{% endblock %}
+
+{% block content %}
+<!-- This form tries to authenticate the user and raises a
+validation error if login was unsuccessful. -->
+<h1>Log-in</h1>
+<!-- we can look for errors in the template to check whether
+the credentials provided are wrong. -->
+{% if form.errors %}
+<p>
+    Your username and password didn't match.
+Please try again.
+</p>
+{% else %}
+<p>Please, use the following form to log in:</p>
+{%  endif %}
+<div class="login-form">
+    <form action="{% url 'login' %}" method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <!-- hidden HTML <input> element to submit the value of a variable called
+next. This variable is first set by the login view when you pass a next
+parameter in the request -->
+
+<!-- The next parameter has to be a URL. If this parameter is given, the
+Django login view will redirect the user to the given URL after a
+successful login. 
+(for
+example, http://127.0.0.1:8000/account/login/?next=/account/).-->
+        <input type="hidden" name="next" value="{{ next }}" />
+        <p><input type="submit" value="Log-in"></p>
+    </form>
+</div>
+{% endblock %}
+

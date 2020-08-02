@@ -1,0 +1,92 @@
+****An authentication system for users to register, log in, edit
+their profile, and change or reset their password
+
+
+Lecture 1:
+Using the Django authentication framework
+--Django comes with a built-in authentication framework that can
+handle user authentication, sessions, permissions, and user groups.
+The authentication system includes views for common user actions
+such as login, logout, password change, and password reset.
+
+-The authentication framework is located at django.contrib.auth and is
+used by other Django contrib packages.
+
+**The authentication framework also includes the following models:
+---User: A user model with basic fields; the main fields of this
+model are username, password, email, first_name, last_name, and is_active
+---Group: A group model to categorize users
+---Permission: Flags for users or groups to perform certain actions
+
+Lecture 2:
+Creating a login view
+our view should contain
+1.Get the username and password by posting a form
+2. Authenticate the user against the data stored in the database
+3. Check whether the user is active
+4. Log the user into the website and start an authenticated
+session
+-->Create a new forms.py
+
+-create an admin user and create a new user and enter from the login form
+
+--http://127.0.0.1:8000/account/login/ in your browser. to log in
+
+Lecture 3:
+Using Django authentication views
+-you can use the default Django authentication views in most cases
+
+-Django provides the following class-based views to deal with
+authentication. All of them are located in django.contrib.auth.views:
+**LoginView: Handles a login form and logs in a user
+**LogoutView: Logs out a user
+
+-Django provides the following views to handle password changes:
+**PasswordChangeView: Handles a form to change the user password
+**PasswordChangeDoneView: The success view the user is redirected to
+after a successful password change
+
+-Django also includes the following views to allow users to reset their
+password:
+**PasswordResetView: Allows users to reset their password. It
+generates a one-time use link with a token and sends it to
+the user's email account.
+**PasswordResetDoneView: Tells users that an email—including a link
+to reset their password—has been sent to them.
+**PasswordResetConfirmView: Allows users to set a new password.
+**PasswordResetCompleteView: The success view the user is redirected
+to after successfully resetting the password.
+
+---The views listed in the preceding list can save you a lot of time when
+creating a website with user accounts.
+
+Lecture 4:
+Login and logout views
+-Create a new directory inside the templates directory of your account
+application and name it registration.
+
+--create a login.html, logged_out.html, dashboard views ands dashboard.html
+
+--add to settings.py file
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+
+Let's summarize what you have done so far:
+You have added the built-in Django authentication login and
+logout views to your project
+You have created custom templates for both views and
+defined a simple dashboard view to redirect users after they
+log in
+Finally, you have configured your settings for Django to use
+these URLs by default
+
+
+--The current user is set in the
+HttpRequest object by the authentication middleware. You can access it
+with request.user
+-You will find a User object in the request even if the
+user is not authenticated. A non-authenticated user is set in the
+request as an instance of AnonymousUser. The best way to check whether
+the current user is authenticated is by accessing its read-only
+attribute is_authenticated.

@@ -1,0 +1,28 @@
+INTRODUCTION:
+
+-In this chapter, you will develop a social application.
+- You will create a functionality for users to log in, log out, edit, and reset their
+password. 
+-You will learn how to create a custom profile for your
+users, and you will add social authentication to your site.
+
+
+**This chapter will cover the following topics:
+-Using the Django authentication framework
+-Creating user registration views
+-Extending the user model with a custom profile model
+-Adding social authentication with python-social-auth
+
+
+-We will create a social application that will allow users to share
+images they find on the internet.
+
+what exactly we will do in detail
+--An authentication system for users to register, log in, edit
+their profile, and change or reset their password
+--A followers' system to allow users to follow each other
+--A functionality to display shared images and implement a
+bookmarklet for users to share images from any website
+--An activity stream for each user that allows users to see the
+content uploaded by the people they follow
+
