@@ -1,0 +1,23 @@
+Lecture 1:
+User registration and user profiles
+--we will need to build a view to allow visitors to create a user account.
+
+---we include only the username, first_name, and email fields of the model. These
+fields will be validated based on their corresponding model fields
+
+For example, if the user chooses a username that already exists,
+they will get a validation error because username is a field defined with
+unique=True.
+
+--You can provide a clean_<fieldname>() method to any of your
+form fields in order to clean the value or raise form validation
+errors for a specific field
+--Forms also include a general clean()
+method to validate the entire form, which is useful to validate fields
+that depend on each other.
+
+--open up http://127.0.0.1:8000/account/register/ to checkout the register
+then register and click create account
+
+--Click on the log in link and enter your username and password to
+verify that you can access your account.

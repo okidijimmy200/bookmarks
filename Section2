@@ -90,3 +90,31 @@ user is not authenticated. A non-authenticated user is set in the
 request as an instance of AnonymousUser. The best way to check whether
 the current user is authenticated is by accessing its read-only
 attribute is_authenticated.
+
+Lecture 4:
+Changing password views:
+--We also need our users to be able to change their password after
+they log in to our site. 
+--We will integrate Django authentication views for password change.
+
+--Let's create a template for each view.
+--Add a new file inside the templates/registration/ called password_change_form.html
+--create another file in the same directory and name
+it password_change_done.html
+
+--Open http://127.0.0.1:8000/account/password_change/ in your browser. If your
+user is not logged in, the browser will redirect you to the login page.
+After you are successfully authenticated, you will see the following
+change password page:
+
+--Fill in a new password and click on the CHANGE MY PASSWORD button. Django creates a new
+encrypted password and saves it in the database
+
+---****you can create your own views if you need a different
+behavior.
+
+--Django also provides the authentication URL patterns we just
+created. You can comment out the authentication URL patterns we
+added to the urls.py file of the account application and include
+django.contrib.auth.urls instead
+
