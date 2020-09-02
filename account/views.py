@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import LoginForm, UserRegistrationForm,\
                     UserEditForm, ProfileEditForm
 from .models import Profile
+from django.contrib import messages
 
 def user_login(request):
     '''Instantiate the form with the submitted data with form =
@@ -113,6 +114,11 @@ custom Profile model.
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save() #save the form
             profile_form.save()
+            # using the message framewor
+            messages.success(request, 'Profile update'\
+                                    'successfuly')
+        else:
+            messages.error(request, 'Error updating your profile')
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(
@@ -122,3 +128,5 @@ custom Profile model.
                     'accounts/edit.html',
                     {'user_form': user_form,
                     'profile_form': profile_form})
+
+

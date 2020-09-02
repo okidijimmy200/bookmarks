@@ -1,0 +1,30 @@
+Lecture 1:
+Using a custom user model::
+--Django also offers a way to substitute the whole user model with
+your own custom model. Your user class should inherit from
+Django's AbstractUser class, which provides the full implementation of
+the default user as an abstract model. You can read more about this
+method
+
+--Using a custom user model will give you more flexibility, but it
+might also result in more difficult integration with pluggable
+applications that interact with Django's auth user model.
+
+Lecture 2:
+Using the message framework
+--Django has a built-in messages framework that allows you
+to display one-time notifications to your users.
+
+You can create new messages using the add_message() method or any of
+the following shortcut methods:
+***success(): Success messages to be displayed after an action
+was successful
+***info(): Informational messages
+***warning(): Something has not yet failed but may fail imminently
+***error(): An action was not successful, or something failed
+***debug(): Debug messages that will be removed or ignored in a
+production environment
+
+---The messages framework includes the context
+processor django.contrib.messages.context_processors.messages that adds a
+messages variable to the request context

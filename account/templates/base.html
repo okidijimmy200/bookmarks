@@ -7,6 +7,7 @@
 </head>
 <body>
 <div id="header">
+    
     <span class="logo">Bookmarks</span>
     {% if request.user.is_authenticated %}
     <!-- we only display the site's menu to authenticated users -->
@@ -32,6 +33,18 @@
         {% endif %}
     </span>
 </div>
+<!-- You can use this variable in your templates to display all existing messages to
+the user. -->
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">
+        {{ message|safe }}
+        <a href="#" class="close"></a>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
 <div id="content">
 {% block content %}
 {% endblock %}
