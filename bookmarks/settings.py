@@ -126,3 +126,11 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = 'dashboard' #URL to redirect after a successful login if no next parameter is present in the request
 LOGIN_URL = 'login' #The URL to redirect the user to log in
 LOGOUT_URL = 'logout' #The URL to redirect the user to log out
+
+'''For Django to serve media files uploaded by users with the
+development server, add the following settings to the settings.py file
+of your project:'''
+# MEDIA_URL is the base URL to serve the media files uploaded by users,
+MEDIA_URL = '/media/'
+# MEDIA_ROOT is the local path where the images reside
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

@@ -3,8 +3,9 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm
 from django.contrib.auth.decorators import login_required
-from .forms import LoginForm, UserRegistrationForm
-
+from .forms import LoginForm, UserRegistrationForm,\
+                    UserEditForm, ProfileEditForm
+from .models import Profile
 
 def user_login(request):
     '''Instantiate the form with the submitted data with form =
@@ -76,6 +77,11 @@ reasons.'''
            )
            # Save the User object
            new_user.save()
+           # create the user profile
+           Profile.objects.create(user=new_user)
+           '''When users register on our site, we will create an empty profile
+associated with them. You should create a Profile object manually
+using the administration site for the users you created before.'''
            return render(request,
                         'accounts/register_done.html',
                         {'new_user': new_user})
@@ -86,3 +92,33 @@ reasons.'''
                 'accounts/register.html',
                 {'user_form': user_form})
 
+# We use the login_required decorator because users have to be
+# authenticated to edit their profile
+@login_required
+def edit(request):
+    '''
+    we use 2 model forms:
+    userEditform:store the data of the built-in user model,
+    ProfileEditForm:store the additional profile data in the
+custom Profile model.
+    '''
+    if request.method == 'POST':
+        user_form = UserEditForm(instance=request.user,
+                        data=request.POST)
+        profile_form = ProfileEditForm(
+                        instance=request.user.profile,
+                        data=request.POST,
+                        files=request.FILES)
+# To validate the submitted data, we will execute the is_valid() method of both forms
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save() #save the form
+            profile_form.save()
+    else:
+        user_form = UserEditForm(instance=request.user)
+        profile_form = ProfileEditForm(
+                        instance=request.user.profile)
+
+    return render(request, 
+                    'accounts/edit.html',
+                    {'user_form': user_form,
+                    'profile_form': profile_form})

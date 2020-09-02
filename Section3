@@ -19,5 +19,33 @@ that depend on each other.
 --open up http://127.0.0.1:8000/account/register/ to checkout the register
 then register and click create account
 
+
+
 --Click on the log in link and enter your username and password to
 verify that you can access your account.
+
+Lecture 2:
+Extending the user model::
+--Django authentication framework user model comes with very basic
+fields. You may wish to extend the user model to include additional
+data.
+---we can do this by creating a profile model that
+contains all additional fields and a one-to-one relationship with the
+Django user model.
+
+Open the shell and run the following command to create the
+database migration for the new model
+--python manage.py makemigrations
+--python manage.py migrate
+
+--Edit the admin.py file of the account application and register the Profile
+model
+--run the admin url, you will see profile model in the admin site
+
+--Now, we will let users edit their profile on the website. Add the
+following import and model forms to the forms.py file of the account
+application:
+
+--create a template/account/edit.html page
+
+--Register a new user and open http://127.0.0.1:8000/account/edit/.
