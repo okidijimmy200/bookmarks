@@ -28,3 +28,51 @@ production environment
 ---The messages framework includes the context
 processor django.contrib.messages.context_processors.messages that adds a
 messages variable to the request context
+
+Lecture 3:
+Building a custom authentication backend
+-Django allows you to authenticate against different sources. The
+AUTHENTICATION_BACKENDS setting includes the list of authentication
+backends for your project
+
+--The default ModelBackend authenticates users against the database
+using the user model of django.contrib.auth. This will suit most of your
+projects. However, you can create custom backends to authenticate
+your user against other sources, such as an LDAP directory or any
+other system.
+
+--authentication class provides the following:
+**authenticate(): It takes the request object and user credentials as
+parameters. It has to return a user object that matches those
+**credentials if the credentials are valid, or None otherwise. The
+request parameter is an HttpRequest object, or None if it's not
+provided to authenticate().
+**get_user(): Takes a user ID parameter and has to return a user
+object.
+
+**We will create an
+authentication backend to let users authenticate in our site using
+their email address instead of their username.
+
+
+the authentication.py file operates as follows
+$$authenticate(): We try to retrieve a user with the given email
+address and check the password using the built-in
+check_password() method of the user model. This method
+handles the password hashing to compare the given
+password against the password stored in the database.
+$$get_user(): We get a user through the ID set in the user_id
+parameter. Django uses the backend that authenticated the
+user to retrieve the User object for the duration of the user
+session.
+
+--edit the settings.py file
+
+--open http://127.0.0.1:8000/account/login/ in your browser.
+
+--Remember that
+Django will try to authenticate the user against each of the
+backends, so now we should be able to log in seamlessly using your
+username or email account. User credentials will be checked using
+the ModelBackend authentication backend, and if no user is returned,
+credentials will be checked using our custom EmailAuthBackend backend

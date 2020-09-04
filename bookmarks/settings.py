@@ -101,6 +101,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#here  we kept the default ModelBackend that is used
+# to authenticate with username and password and included our own
+# email-based authentication backend.
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'account.authentication.EmailAuthBackend'
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
