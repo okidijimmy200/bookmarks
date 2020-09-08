@@ -1,0 +1,22 @@
+Sharing Content in Your Website
+--you will learn how to create a JavaScript
+bookmarklet to share content from other sites into your website,
+and you will implement AJAX features into your project using
+jQuery and Django.
+
+--Creating many-to-many relationships
+***Customizing behavior for forms
+***Using jQuery with Django
+***Building a jQuery bookmarklet
+***Generating image thumbnails using sorl-thumbnail
+***Implementing AJAX views and integrating them with
+jQuery
+***Creating custom decorators for views
+***Building AJAX pagination
+
+Lecture 1:
+Creating an image bookmarking website
+1. Define a model to store images and their information
+2. Create a form and a view to handle image uploads
+3. Build a system for users to be able to post images they find
+on external websites

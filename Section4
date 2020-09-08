@@ -76,3 +76,89 @@ backends, so now we should be able to log in seamlessly using your
 username or email account. User credentials will be checked using
 the ModelBackend authentication backend, and if no user is returned,
 credentials will be checked using our custom EmailAuthBackend backend
+
+Lecture 4:
+Adding social authentication to your site
+--Python Social Auth is a Python module that simplifies the process of adding social
+authentication to our website. Using this module, you can let your
+users log in to your website using their account of other services
+
+run the social_auth
+****pip install social-auth-app-django==2.1.0*****
+
+add it to installed applications
+then 
+python manage.py migrate
+***Python-social-auth includes backends for multiple services. You can
+see a list of all backends
+
+***Several social services will not allow the redirecting of users to
+127.0.0.1 or localhost after a successful authentication.
+***This will tell your computer to point the mysite.com hostname to your
+own machine. If you are using Windows, your hosts file is located at
+C:\Windows\System32\Drivers\etc\hosts.
+
+--Edit the settings.py file of your project and edit the ALLOWED_HOSTS setting
+as follows:
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
+
+Lecture 5:
+Running the development server through
+HTTPS:
+--The Transport Layer Security (TLS) protocol is the standard for serving
+websites through a secure connection
+--In order to test the social authentication functionality serving your site through
+HTTPS, you are going to use the RunServerPlus extension of the package Django
+Extensions.
+
+*******pip install django-extensions==2.2.5********
+
+install Werkzeug, which contains a debugger layer required by
+the RunServerPlus extension
+****pip install werkzeug==0.16.0***
+
+--pyOpenSSL, which is required to use
+the SSL/TLS functionality of RunServerPlus:
+****pip install pyOpenSSL==19.0.0***
+
+--Use the management command runserver_plus provided by Django Extensions
+to run the development server, as follows:
+
+****python manage.py runserver_plus --cert-file cert.crt***8
+open https://mysite.com:8000/account/login/ to chekout
+
+Authentication using Facebook::
+--In order to let your users log in with their Facebook account to your
+site, add the following line to the AUTHENTICATION_BACKENDS setting in the
+settings.py file of your project
+'social_core.backends.facebook.FacebookOAuth2',
+--Copy the App ID and App Secret keys and add them to the settings.py
+file of your project, as follows
+
+--Open the registration/login.html template of your account application and
+append the following code at the bottom of the content block
+
+pg 259---error on fb login
+
+--to authenticate with facebook, you will need a fb developer account
+***Open https://developers.facebook.com/apps/ in your browser.
+You will see the following header in the site:
+
+**Click on the Add a New App button. You will see the following form
+to create a new app ID:
+
+Lecture 6:
+Authentication using Twitter::
+--add social_core.backends.twitter.TwitterOAuth', to authentication_backends
+
+NB: twitter verification underway
+
+Lecture 7:
+Authentication using Google::
+--Using authentication in Google
+--we create an API key in google developer console
+
+https://console.developers.google.com/apis/credentials
+
+--create project 
+--click credentials and click the create credentials and OAuth client ID

@@ -9,6 +9,8 @@ urlpatterns = [
     path('account/', include('account.urls')),
     # django.contrib.auth.urls(similar to 'account/' ie /logout, /login)
     path('', include('django.contrib.auth.urls')),
+    # for social authentication
+    path('social-auth/', include('social_django.urls', namespace='social'))
 ]
 
 if settings.DEBUG:

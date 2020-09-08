@@ -25,7 +25,8 @@ SECRET_KEY = 'p5j#zzyaq)@ghzd#ug2=)!@dz%ixyym9i_u!+&e9&7h$1+-uhi'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# allowed hosts to enable authentication
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -38,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
+    'django_extensions',
     
 ]
 
@@ -106,7 +109,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # email-based authentication backend.
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'account.authentication.EmailAuthBackend'
+    'account.authentication.EmailAuthBackend',
+    # for facebook authentication
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.google.GoogleOAuth2'
 ]
 
 # Internationalization
@@ -141,3 +148,13 @@ of your project:'''
 MEDIA_URL = '/media/'
 # MEDIA_ROOT is the local path where the images reside
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1258169217866367' #Facebook App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '0eb27546e91e6178e7ec17f8d1e83fd3' #Facebook App Secret
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '500735434165-709g3vseascngkle8994um6sluf90nd6.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'zJI_nEXoZRB0L59HfpLe3u32'
+
