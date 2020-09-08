@@ -162,3 +162,12 @@ https://console.developers.google.com/apis/credentials
 
 --create project 
 --click credentials and click the create credentials and OAuth client ID
+
+Lecture 7:
+Posting content from other websites
+--we will allow users bookmark images from external websites
+-the user will provide the url of image, title and description
+
+--our app will download the image and create a new image object in the database
+--build a form to submit new image
+

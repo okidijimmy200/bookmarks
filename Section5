@@ -40,3 +40,5 @@ Creating many-to-many relationships:
 Lecture 3:
 Registering the image model in the administration site
 edit the admin.py file and register image
+
+-start the developement server
