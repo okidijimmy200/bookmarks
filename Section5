@@ -20,3 +20,23 @@ Creating an image bookmarking website
 2. Create a form and a view to handle image uploads
 3. Build a system for users to be able to post images they find
 on external websites
+
+--create a new app called images
+
+--django-admin startapp images
+--we then build the image model
+
+NB:
+Database indexes improve query performance. Consider setting db_index=True
+for fields that you frequently query using filter(), exclude(), or order_by().
+ForeignKey fields or fields with unique=True imply the creation of an index. You can
+also use Meta.index_together to create indexes for multiple fields.
+
+Lecture 2: 
+Creating many-to-many relationships:
+--run the migrations for images
+--to apply migrations --python manage.py migrate images
+
+Lecture 3:
+Registering the image model in the administration site
+edit the admin.py file and register image
