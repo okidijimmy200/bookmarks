@@ -27,6 +27,7 @@ DEBUG = True
 
 # allowed hosts to enable authentication
 ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
+# ALLOWED_HOSTS = []
 
 
 # Application definition

@@ -42,3 +42,54 @@ Registering the image model in the administration site
 edit the admin.py file and register image
 
 -start the developement server
+
+Lecture 3:
+Cleaning form fields
+--to check if the image url is valid we will
+check that the filename ends with a .jpg or .jpeg extension to only
+allow JPEG files.
+
+Lecture 4:
+Overriding the save() method of a ModelForm
+--As you know, ModelForm provides a save() method to save the current
+model instance to the database and return the object
+--We will override the save() method of our form in
+order to retrieve the given image and save it.
+
+--we edit the views file for images app
+
+--create a new urls.py file
+
+--crete a template file
+
+checkout
+
+***python manage.py runserver_plus --cert-file cert.crt***
+
+NB: this works with firefox and for chrome, remove the cookies for this to work
+https://127.0.0.1:8000/images/create/?title=%20Django%20and%20
+Duke&url=https://upload.wikimedia.org/wikipedia/commons/8/85/Django_
+Reinhardt_and_Duke_Ellington_%28Gottlieb%29.jpg
+
+--add description o
+
+Lecture 4:
+Building a bookmarklet with jQuery
+--A bookmarklet is a bookmark stored in a web browser that contains
+JavaScript code to extend the browser's functionality
+--this is important for building tools tht interact with other websites
+
+--Some online services, such as Pinterest, implement their own
+bookmarklets to let users share content from other sites onto their
+platform.
+
+--This is how your users will add a bookmarklet to their browser and
+use it:
+1. The user drags a link from your site to his browser's
+bookmarks. The link contains JavaScript code in its href
+attribute. This code will be stored in the bookmark.
+2. The user navigates to any website and clicks on the
+bookmark. The JavaScript code of the bookmark is
+executed
+
+--create a new template called bookmarklet_launcher.js
