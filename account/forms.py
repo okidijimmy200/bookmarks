@@ -47,4 +47,4 @@ their date of birth and upload a picture for their profile'''
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('data_of_birth', 'photo')
+        fields = ('date_of_birth', 'photo')

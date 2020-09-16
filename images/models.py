@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
+from django.urls import reverse
 
 '''This is the model we will use to store images bookmarked from
 different sites'''
@@ -23,7 +24,7 @@ class Image(models.Model):
     title = models.CharField(max_length=200) #A title for the image.
     slug = models.SlugField(max_length=200, blank=True) #slug is used for building beautiful SEO-friendly URLs.
     url = models.URLField() #The original URL for this image.
-    image = models.ImageField(upload_to='images/%y/%m/%d') #the image file
+    image = models.ImageField(upload_to='images/%y/%m/%d/') #the image file
     description = models.TextField(blank=True) #An optional description for the image.
     created = models.DateField(auto_now_add=True, db_index=True) # date and time the object is created ib the db
     # We use db_index=True so that Django creates an index in the
@@ -37,6 +38,9 @@ class Image(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super(Image, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+            return reverse('images:detail', args=[self.id, self.slug])
 
 '''NB:Foreign key
 This indicates the User object that bookmarked this

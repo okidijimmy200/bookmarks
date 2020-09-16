@@ -32,3 +32,5 @@ def image_create(request):
     return render(request, 'images/image/create.html',
                         {'section': 'images',
                         'form': form} )
+
+

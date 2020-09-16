@@ -1,0 +1,79 @@
+/** main jQuery loader script. It takes care of using jQuery if it has already
+been loaded on the current website. If jQuery is not loaded, the script loads jQuery
+from Google's content delivery network (CDN), which hosts popular JavaScript
+frameworks. When jQuery is loaded*/
+(function(){
+    var jquery_version = '3.4.1';
+    var site_url = 'https://127.0.0.1:8000/';
+    var static_url = site_url + 'static/';    //The base URL for our website and base
+// Minimum width and height in pixels
+// for the images our bookmarklet will try to find on the site
+    var min_width = 100;
+    var min_height = 100;
+
+    function bookmarklet(msg) {
+        // load css
+        var css = jQuery('<link>');
+        css.attr({
+            rel: 'stylesheet',
+            type: 'test/css',
+            href: static_url + 'css/bookmarklet.css?r=' + Math.floor(Math.random()*99999999999999999999)
+        })
+        jQuery('head').append(css)
+
+        // load HTML
+        box_html = '<div id="bookmarklet"><a href="#" id="close">&times;</a> <h1>Select an image to bookmark:</h1><div class="images"></div></div>';
+        jQuery('body').append(box_html)
+
+        //close event
+        jQuery('#bookmarklet #close').click(function(){
+            jQuery('#bookmarklet').remove()
+        })
+    };
+
+    // --check if jQuery is loaded
+    if(typeof window.jQuery != 'undefined'){
+        bookmarklet();
+    } else {
+        // --check for conflicts
+        var conflict = typeof window.$ != 'undefined';
+        // --create the script and point to Google API
+        var script = document.createElement('script');
+        script.src = '//ajax.googleapis.com/ajax/libs/jquery/' + 
+        jquery_version + '/jquery.min.js';
+        // --add the script to the head for processing 
+        document.head.appendChild(script);
+        // --create a way to wait until script loading
+        var attempts = 15;
+        (function(){
+            // --check again if jquery is undefined
+            if (typeof window.jQuery == 'undefined') {
+                if(--attempts > 0){
+                    // --Calls himself in a few millisceonds
+                    window.setTimeout(arguments.callee, 250)
+                }
+                else {
+                    // --too mucj attempts to load, send error
+                    alert('An error occured whilw loading jQuery')
+
+                }
+            }
+            else {
+                bookmarklet()
+            }
+        })
+            //find images and display them
+    /**The preceding code uses the img[src$="jpg"] selector to find all <img>
+HTML elements, whose src attribute finishes with a jpg string. */
+    jQuery.each(jQuery('img[src$="jpg"]'), function(index, image) {
+        /**We add the images with a size larger than the one specified
+with the min_width and min_height variables to our <div
+class="images"> HTML container. */
+        if (jQuery(image).width() >= min_width && jQuery(image).height() >= min_height)
+        {
+            image_url = jQuery(image).attr('src');
+            jQuery('#bookmarklet .images').append('<a href="#"><img src="'+ image_url + '" /></a>')
+        }
+    })
+    }
+})()

@@ -93,3 +93,17 @@ bookmark. The JavaScript code of the bookmark is
 executed
 
 --create a new template called bookmarklet_launcher.js
+
+--add bookmarlet launcher to the dashboard pages so tht our users can copy it to their bookmarks
+
+--checkout http://127.0.0.1:8000/account/
+
+<!-- this displays the total number of images bookmarked by the user. -->
+<!-- We use the {% with %} template tag to set a variable with the total number of images bookmarked by the
+current user. -->
+
+--create the following directories and files inside the images
+application directory:
+
+
+--we can also use Ngrok for https
