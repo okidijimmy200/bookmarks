@@ -24,7 +24,7 @@ class Image(models.Model):
     title = models.CharField(max_length=200) #A title for the image.
     slug = models.SlugField(max_length=200, blank=True) #slug is used for building beautiful SEO-friendly URLs.
     url = models.URLField() #The original URL for this image.
-    image = models.ImageField(upload_to='images/%y/%m/%d/') #the image file
+    image = models.ImageField(upload_to='images/%Y/%m/%d/') #the image file
     description = models.TextField(blank=True) #An optional description for the image.
     created = models.DateField(auto_now_add=True, db_index=True) # date and time the object is created ib the db
     # We use db_index=True so that Django creates an index in the

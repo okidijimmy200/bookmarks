@@ -1,0 +1,9 @@
+Lecture 1:
+Creating a detail view for images
+--we wil create a detail view to display images
+
+--<!-- Using the {% with %} template tag is useful to prevent Django from
+evaluating QuerySets multiple times. -->
+
+NB:
+the html templates and js are very sensitive to commented  out code
