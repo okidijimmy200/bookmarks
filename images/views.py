@@ -6,6 +6,7 @@ from .forms import ImageCreateForm
 from .models import Image
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+from common.decorators import ajax_required
 
 @login_required #prevent access for unauthenticated users.
 def image_create(request):
@@ -45,6 +46,7 @@ def image_detail(request, id, slug):
                     {'section': 'images',
                     'image': image})
 
+@ajax_required
 # view for users to like/unlike images
 @login_required
 # require_POST decorator returns an HttpResponseNotAllowed object when  HTTP request is not done via POST. This way, you only allow POST requests for this view

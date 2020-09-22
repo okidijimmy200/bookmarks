@@ -71,6 +71,7 @@ user and this image
 with data- is a data attribute. Data attributes are used to store
 custom data for your application.
 
+
 --AJAX request to the image_like
 view. When a user clicks on the like/unlike link,
 
@@ -82,3 +83,20 @@ its display text accordingly
 
 --If you click on the UNLIKE button, the action is performed, and then the button's
 text changes back to LIKE, and the total count changes accordingly.
+
+
+
+Lecture 2:
+Creating custom decorators for yourviews
+--Let's restrict your AJAX views to allow only requests generated via AJAX.
+--This value is set in the HTTP_X_REQUESTED_WITH HTTP header, which is
+included in AJAX requests by most JavaScript libraries.
+
+--you will create a decorator for checking the HTTP_X_REQUESTED_WITH header
+in your views.
+
+--we will create a common package for decorators
+
+NB: Build custom decorators for your views if you find that you are
+repeating the same checks in multiple views.
+
