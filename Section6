@@ -7,3 +7,78 @@ evaluating QuerySets multiple times. -->
 
 NB:
 the html templates and js are very sensitive to commented  out code
+
+Lecture 2:
+Creating image thumbnails using sorl-thumbnail
+--The best way to display optimized images in a uniform way is to
+generate thumbnails.
+
+**************pip install sorl-thumbnail==12.4.1************
+
+run 
+*****python manage.py migrate****8
+
+300x0 --0 is for the height
+
+
+
+NB:::
+--from here, we will use django 3
+
+Lecture 3:
+Adding AJAX actions with jQuery
+--AJAX involves sending and retrieving data from the server
+asynchronously without reloading the entire page.
+
+--link to the image detail page to let users click on it in order to
+like an image. You will perform this action with an AJAX call to avoid reloading the
+whole page.
+
+--Django also provides a require_GET decorator to only allow GET requests and
+a require_http_methods decorator to which you can pass a list of allowed methods
+as an argument.
+
+In this view, you use two POST parameters:
+• image_id: The ID of the image object on which the user is performing the
+action
+• action: The action that the user wants to perform, which you assume
+to be a string with the value like or unlike.
+
+--we will use manager provided by django to enable users_like inorder to perform add, remove, clear methods
+
+--Finally, you use the JsonResponse class provided by Django, which returns an
+HTTP response with an application/json content type, converting the given object
+into a JSON output
+
+--The
+preferred way to include JavaScript code is by loading .js files, which are served
+as static files,
+
+Cross-site request forgery in AJAX requests
+
+Lecture 2:
+Performing AJAX requests with jQuery::
+---First, you add another variable to the {% with %} template tag in order to store the
+results of the image.users_like.all query and avoid executing it twice.
+---You use
+the variable for the for loop that iterates over the users that like this image.
+---****You display the total number of users who like the image and include a link to like/
+unlike the image. You check whether the user is in the related object set of users_
+like to display either like or unlike, based on the current relationship between the
+user and this image
+
+---Any attribute on any HTML element whose attribute name starts
+with data- is a data attribute. Data attributes are used to store
+custom data for your application.
+
+--AJAX request to the image_like
+view. When a user clicks on the like/unlike link,
+
+1. Call the AJAX view, passing the image ID and the action parameters to it
+2. If the AJAX request is successful, update the data-action attribute of the
+<a> HTML element with the opposite action (like / unlike), and modify
+its display text accordingly
+3. Update the total number of likes that is displayed
+
+--If you click on the UNLIKE button, the action is performed, and then the button's
+text changes back to LIKE, and the total count changes accordingly.

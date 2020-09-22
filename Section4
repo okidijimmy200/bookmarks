@@ -124,7 +124,7 @@ the SSL/TLS functionality of RunServerPlus:
 --Use the management command runserver_plus provided by Django Extensions
 to run the development server, as follows:
 
-****python manage.py runserver_plus --cert-file cert.crt***8
+***************************python manage.py runserver_plus --cert-file cert.crt*********************
 open https://mysite.com:8000/account/login/ to chekout
 
 Authentication using Facebook::
