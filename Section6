@@ -100,3 +100,20 @@ in your views.
 NB: Build custom decorators for your views if you find that you are
 repeating the same checks in multiple views.
 
+Lecture 3:
+Adding AJAX pagination to your list views
+--we will then list all bookmarked images on our website
+
+--You will use AJAX
+pagination to build an infinite scroll functionality.
+--Infinite scroll is achieved by
+loading the next results automatically when the user scrolls to the bottom of the
+page.
+
+--The list.html
+template will hold the JavaScript code for loading additional pages when scrolling
+to the bottom of the page.
+
+--open https://127.0.0.1:8000/images/ 
+
+pg 185

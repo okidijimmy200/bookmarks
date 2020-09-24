@@ -11,12 +11,11 @@ urlpatterns = [
     # path('', include('django.contrib.auth.urls')),
     # for social authentication
     path('social-auth/', include('social_django.urls', namespace='social')),
-    path('images/', include('images.urls', namespace='images'))
+    path('images/', include('images.urls', namespace='images')),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                        document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # NB:The static() helper function is suitable for development, but not for
 # production use. Never serve your static files with Django in a production

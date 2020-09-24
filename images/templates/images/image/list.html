@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Images bookmarked{% endblock %}
+
+{% block content %}
+
+<h1>Images bookmarked</h1>
+<div id="image-list">
+<!-- The list.html template will hold the JavaScript code for loading additional pages when scrolling
+to the bottom of the page. -->
+    {% include "images/image/list_ajax.html" %}
+</div>
+
+{% endblock %}
+<!-- The preceding code provides the infinite scroll functionality. -->
+{% block domready %}
+
+    var page = 1 //page: Stores the current page number.
+//Allows you to know whether the user is on the last page and retrieves an empty page and stops sending when u are on the last page.
+    var empty_page = false;
+//Prevents you from sending additional requests while an AJAX request is in progress.
+    var block_request = false;
+//You use $(window).scroll() to capture the scroll event and also to define a handler function for it.
+    $(window).scroll(function() {
+/*You calculate the margin variable to get the difference between the total
+document height and the window height, because that's the height of the
+remaining content for the user to scroll. You subtract a value of 200 from the
+result so that you load the next page when the user is closer than 200 pixels
+to the bottom of the page.*/
+        var margin = $(document).height() - $(window).height() - 200;
+        if ($(window).scrollTop() > margin && empty_page == false &&
+        block_request == false) { // ajax requests r only sent if no other request is sent and user didnt get to last page or empty_page
+            block_request == true; // this is done to avoid scroll event triggering additional requst
+            page += 1;
+            $.get('?page=' + page, function(data){
+                if(data == '') { // no content when you reach the end of the page  so empty_page = true to prevent additional AJAX requests
+                    empty_page = true
+                }else {
+                    block_request = false;
+                    $('#image-list').append(data); // append data to the HTML element with image-list
+                }
+            })
+        }
+    })
+{% endblock %}
