@@ -16,6 +16,7 @@ generate thumbnails.
 **************pip install sorl-thumbnail==12.4.1************
 
 run 
+
 *****python manage.py migrate****8
 
 300x0 --0 is for the height
