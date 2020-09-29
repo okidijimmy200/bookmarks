@@ -3,8 +3,8 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 
 class Profile(models.Model):
-    '''The user one-to-one field allows you to associate profiles with
-users.'''
+# The user one-to-one field allows you to associate profiles with
+# users.
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
     date_of_birth = models.DateField(blank=True, null=True)

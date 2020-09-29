@@ -162,3 +162,23 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '500735434165-709g3vseascngkle8994um6sluf90nd6.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'zJI_nEXoZRB0L59HfpLe3u32'
 
+'''Another way to specify the URL for a model except canonoical URL is by
+adding the ABSOLUTE_URL_OVERRIDES setting to your project'''
+
+# from django.urls import reverse_lazy
+
+# ABSOLUTE_URL_OVERRIDES = {
+#     'auth.user': lambda u: reverse_lazy('user_detail',
+#                                         args=[u.username])
+# }
+
+'''Django adds a get_absolute_url() method dynamically to any models that appear
+in the ABSOLUTE_URL_OVERRIDES setting. Now, you can use get_absolute_url() on a User instance to
+retrieve its corresponding URL'''
+
+from django.urls import reverse_lazy
+
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: reverse_lazy('user_detail',
+                                        args=[u.username])
+}
