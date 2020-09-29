@@ -50,3 +50,42 @@ delete instances of the intermediary model instead.
 
 sync the db
 ********python manage.py migrate account********
+
+Lecture 2:
+Creating list and detail views for user profiles::
+--The Django User model contains an is_active flag to
+designate whether the user account is considered active.
+
+--Another way to specify the URL for a model is by
+adding the ABSOLUTE_URL_OVERRIDES setting to your project in the sameway as canonical_url
+
+Open the Python shell with the python manage.py shell command and run the
+following code to test it
+
+>>> from django.contrib.auth.models import User
+>>> user = User.objects.latest('id')
+>>> str(user.get_absolute_url())
+'/account/users/jimmy/'
+
+--create templates for the views
+
+NB:
+if you have any difficulty generating thumbnails, you can add
+THUMBNAIL_DEBUG = True to your settings.py file in order to obtain debug
+information in the shell
+
+
+--In the detail template, you display the user profile and use the {% thumbnail %}
+template tag to display the profile image. You show the total number of followers
+and a link to follow or unfollow the user.
+
+--You perform an AJAX request to follow/
+unfollow a particular user. You add data-id and data-action attributes to the <a>
+HTML element, including the user ID and the initial action to perform when the link
+element is clicked – follow or unfollow, which depends on the user requesting the
+page being a follower of this other user or not, as the case may be. You display the
+images bookmarked by the user, including the images/image/list_ajax.html
+template.
+
+Building an AJAX view to follow users::
+

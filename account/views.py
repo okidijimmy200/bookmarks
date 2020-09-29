@@ -6,6 +6,12 @@ from .forms import LoginForm, UserRegistrationForm,\
                     UserEditForm, ProfileEditForm
 from .models import Profile
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from common.decorators import ajax_required
+from .models import Contact
 
 def user_login(request):
     '''Instantiate the form with the submitted data with form =
@@ -96,12 +102,8 @@ using the administration site for the users you created before.'''
 # authenticated to edit their profile
 @login_required
 def edit(request):
-    '''
-    we use 2 model forms:
-    userEditform:store the data of the built-in user model,
-    ProfileEditForm:store the additional profile data in the
-custom Profile model.
-    '''
+# we use 2 model forms: userEditform:store the data of the built-in user model,
+# ProfileEditForm:store the additional profile data in the custom Profile model
     if request.method == 'POST':
         user_form = UserEditForm(instance=request.user,
                         data=request.POST)
@@ -113,9 +115,8 @@ custom Profile model.
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save() #save the form
             profile_form.save()
-            # using the message framewor
-            messages.success(request, 'Profile update'\
-                                    'successfuly')
+            # using the message framework
+            messages.success(request, 'Profile update successfuly')
         else:
             messages.error(request, 'Error updating your profile')
     else:
@@ -127,5 +128,52 @@ custom Profile model.
                     'accounts/edit.html',
                     {'user_form': user_form,
                     'profile_form': profile_form})
+
+@login_required
+# The user_list view gets all active users.
+# NB: you cld add pagination to the users available
+def user_list(request):
+    users = User.objects.filter(is_active=True)
+    return render(request,
+                'accounts/user/list.html',
+                {'section': 'people',
+                'users': users})
+
+#The user_detail view uses the get_object_or_404() shortcut to retrieve the
+# active user with the given username.    
+@login_required
+def user_detail(request, username):
+# The view returns an HTTP 404 response if no active user with the given username is found.
+    user = get_object_or_404(User,
+                           username=username,
+                           is_active=True)
+
+    return render(request,
+                 'accounts/user/detail.html',
+                 {'section': 'people',
+                 'user': user})
+
+# creating the follow and unfollow btn
+# You use the intermediary Contact model to create or delete user relationships.
+@ajax_required
+@require_POST
+@login_required #user_follower view is similar to image_likes btn
+def user_follow(request):
+    user_id = request.POST.get('id')
+    action = request.POST.get('action')
+    if user_id and action:
+        try:
+            user = User.objects.get(id=user_id)
+            if action == 'follow':
+                Contact.objects.get_or_create(user_form=request.user,
+                                                user_to=user)
+            else:
+                Contact.objects.filter(user_form=request.user,
+                                        user_to=user).delete()
+            return JsonResponse({'status': 'ok'})
+
+        except User.DoesNotExist:
+            return JsonResponse({'status' : 'error'})
+        return JsonResponse({'status': 'error'})
 
 
