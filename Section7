@@ -155,3 +155,42 @@ Avoiding duplicate actions in the activity stream::
 --Sometimes, your users might click several times on the LIKE or UNLIKE button
 or perform the same action multiple times in a short period of time. This will easily
 lead to storing and displaying duplicate actions.
+
+Lecture 9:
+Adding user actions to the activity stream
+--add some actions to your views to build the activity stream for your users.
+You will store an action for each of the following interactions:
+• A user bookmarks an image
+• A user likes an image
+• A user creates an account
+• A user starts following another user
+
+--thanks to your Action model and your helper
+function, it's very easy to save new actions to the activity stream
+
+Displaying the activity stream::
+
+Optimizing QuerySets that involve related objects::
+--Every time you retrieve an Action object, you will usually access its related User
+object and the user's related Profile object.
+
+Using select_related()::
+# SELECT RELATED: allows you to retrieve related objects for one-to-many relationships wch is for is for ForeignKey and OneToOne fields.
+-Using select_related() carefully can vastly improve execution
+time.
+
+Using prefetch_related()::
+--select_related() doesn't work for manyto-many or many-to-one relationships
+--Django offers a different QuerySet method called prefetch_related that works
+for many-to-many and many-to-one relationships in addition to the relationships
+supported by select_related().
+--This
+method also supports the prefetching of GenericRelation and GenericForeignKey.
+
+Creating templates for actions::
+--create a detail.html template in actions
+--retrieve the user performing the action and the related Profile
+object.
+
+---Open http://127.0.0.1:8000/account/ in your browser. Log in as an existing
+user and perform several actions so that they get stored in the database
