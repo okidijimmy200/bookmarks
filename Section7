@@ -89,3 +89,21 @@ template.
 
 Building an AJAX view to follow users::
 
+
+Lecture 3:
+Building a generic activity stream application
+--An activity stream is a list of recent activities
+performed by a user or a group of users eg facebooks newfeed
+
+--You are going to build an activity stream application so that every user can see the
+recent interactions of the users they follow. To do so, you will need a model to save
+the actions performed by users on the website and a simple way to add actions to
+the feed.
+
+************python manage.py startapp actions**********
+
+---With this basic model, you can only store actions, such as user X did something. You
+need an extra ForeignKey field in order to save actions that involve a target object,
+such as user X bookmarked image Y or user X is now following user Y. As you already
+know, a normal ForeignKey can point to only one model. Instead, you will need
+a way for the action's target object to be an instance of an existing model.
