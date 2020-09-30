@@ -10,24 +10,21 @@ def create_action(user, verb, target=None):
      # check for any similar action made in the last minute
 # Sometimes, your users might click several times on the LIKE or UNLIKE button or perform the same action multiple times in a short period of time. This will easily
 # lead to storing and displaying duplicate actions
-     now = timezone.now()
-     last_minute = now - datetime.timedelta(seconds=60)
-     similar_actions = Action.objects.filter(user_id=user.id,
-                                            verb=verb,
-                                            created_gte=last_minute)
-
+    now = timezone.now()
+    last_minute = now - datetime.timedelta(seconds=60)
+    similar_actions = Action.objects.filter(user_id=user.id,
+                                       verb= verb,
+                                       created__gte=last_minute)
     if target:
         target_ct = ContentType.objects.get_for_model(target)
         similar_actions = similar_actions.filter(
-                                            target_ct=target_ct,
-                                            target_id=target.id
-        )
+                                             target_ct=target_ct,
+                                             target_id=target.id) 
 
     if not similar_actions:
     # no existing actions found
         action = Action(user=user, verb=verb, target=target)
         action.save()
-        return save()
         return True
     return False
 

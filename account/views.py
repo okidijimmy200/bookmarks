@@ -12,6 +12,8 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from common.decorators import ajax_required
 from .models import Contact
+from actions.utils import create_action
+from actions.models import Action
 
 def user_login(request):
     '''Instantiate the form with the submitted data with form =
@@ -60,9 +62,28 @@ log in to their account'''
 '''we added a hidden input in the form of our login template for this purpose.'''
 @login_required  #The login_required decorator checks whether the current user is authenticated
 def dashboard(request):
+    # Display all actions by default   
+# retrieve all actions from the database, excluding the ones performed by the current user.
+    actions = Action.objects.exclude(user=request.user)
+# By default, you retrieve the latest actions performed by all users on the platform.
+# ----------------------------------------------------------------------------
+# If the user is following other users, you restrict the query to retrieve only the actions performed by the users they follow.
+    following_ids = request.user.following.values_list('id',
+                                                       flat=True)
+
+    if following_ids:
+    # If user is following others, retrieve only their actions
+        actions = actions.filter(user_id__in=following_ids)
+# Finally, you limit the result to the first 10 actions returned.
+    actions = actions.select_related('user', 'user__profile')\
+                     .prefetch_related('target')[:10] #user__profile to join the Profile table in a single SQL query and if no arguments is passed to it, it will retrieve objects from all ForeignKey relationships.
+# This query is now optimized for retrieving the user actions, including related objects. 
+
+# SELECT RELATED: allows you to retrieve related objects for one-to-many relationships wch is for is for ForeignKey and OneToOne fields.
     return render(request,
                     'accounts/dashboard.html',
-                    {'section': 'dashboard'})
+                    {'section': 'dashboard',
+                    'actions': actions})
 '''We also define a section variable. We will use this variable to track
 the site's section that the user is browsing.'''
 
@@ -85,6 +106,7 @@ reasons.'''
            new_user.save()
            # create the user profile
            Profile.objects.create(user=new_user)
+           create_action(new_user, 'has created an account')
            '''When users register on our site, we will create an empty profile
 associated with them. You should create a Profile object manually
 using the administration site for the users you created before.'''
@@ -167,6 +189,7 @@ def user_follow(request):
             if action == 'follow':
                 Contact.objects.get_or_create(user_form=request.user,
                                                 user_to=user)
+                create_action(request.user, 'is following', user)
             else:
                 Contact.objects.filter(user_form=request.user,
                                         user_to=user).delete()
