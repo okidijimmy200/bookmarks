@@ -107,3 +107,51 @@ need an extra ForeignKey field in order to save actions that involve a target ob
 such as user X bookmarked image Y or user X is now following user Y. As you already
 know, a normal ForeignKey can point to only one model. Instead, you will need
 a way for the action's target object to be an instance of an existing model.
+
+Lecture 4:
+Using the contenttypes framework::
+---Django includes a contenttypes framework located at django.contrib.
+contenttypes. This application can track all models installed in your project and
+provides a generic interface to interact with your models.
+
+The ContentType model has the following fields:::
+• app_label: This indicates the name of the application that the model
+belongs to. This is automatically taken from the app_label attribute of the
+model Meta options. For example, your Image model belongs to the images
+application.
+• model: The name of the model class.
+• name: This indicates the human-readable name of the model. This is
+automatically taken from the verbose_name attribute of the model
+Meta options
+
+working with ContentType objects using shell
+
+python manage.py shell
+
+Lecture 7:
+Adding generic relations to your models
+--In generic relations, ContentType objects play the role of pointing to the model used
+for the relationship.
+
+***********python manage.py makemigrations actions************
+
+*************python manage.py migrate**********
+
+add the action model to admin site
+
+************Run the python manage.py runserver**********
+
+http://127.0.0.1:8000/admin/actions/action/add/
+
+--The target_ct field allows you to select any of
+the registered models of your Django project
+
+--limit_choices_to attribute in the target_ct field; the limit_choices_to attribute allows you to restrict the content
+of ForeignKey fields to a specific set of values.
+
+--create a new file in the actions called utils.py
+
+Avoiding duplicate actions in the activity stream::
+--Sometimes, your users might click several times on the LIKE or UNLIKE button
+or perform the same action multiple times in a short period of time. This will easily
+lead to storing and displaying duplicate actions.
