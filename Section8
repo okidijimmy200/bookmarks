@@ -1,0 +1,81 @@
+Lecture 1:
+Using signals for denormalizing counts::
+--There are some cases when you may want to denormalize your data.
+Denormalization is making data redundant in such a way that it optimizes read
+performance.
+
+--You have to be careful about denormalization and only start using it when you really need
+it.
+--its hard to keep  denormalized data updated
+
+Working with signals::
+--Django comes with a signal dispatcher that allows receiver functions to get notified
+when certain actions occur. Signals are very useful when you need your code to do
+something every time something else happens. Signals allow you to decouple logic:
+--you can build a signal receiver function that gets executed every time
+a User object is saved
+
+--• pre_save and post_save are sent before or after calling the save() method
+of a model
+• pre_delete and post_delete are sent before or after calling the delete()
+method of a model or QuerySet
+• m2m_changed is sent when a ManyToManyField on a model is changed
+
+--Let's say you want to retrieve images by popularity. You can use the Django
+aggregation functions to retrieve images ordered by the number of users who like
+them
+
+--ordering images by counting their total likes is more expensive in
+terms of performance than ordering them by a field that stores total counts. You
+can add a field to the Image model to denormalize the total number of likes to
+boost performance in queries that involve this field
+
+--NB:
+Consider database
+indexes, query optimization, and caching before starting to
+denormalize your data.
+
+***********python manage.py makemigrations images****
+
+**********python manage.py migrate images********
+
+--Django signals are synchronous and blocking. Don't confuse signals
+with asynchronous tasks. However, you can combine both to
+launch asynchronous tasks when your code gets notified by a
+signal.
+
+Lecture 2::
+Application configuration classes
+--The application configuration class allows you to store metadata and the
+configuration for the application, and it provides introspection for the application.
+--in the apps.py file
+
+--Open your browser to view an image detail page and click on the LIKE button.
+Go back to the administration site, navigate to the edit image URL, such as
+http://127.0.0.1:8000/admin/images/image/1/change/, and take a look
+at the total_likes attribute
+
+--Now, you can use the total_likes attribute to order images by popularity
+or display the value anywhere, avoiding using complex queries to calculate it.
+
+from django.db.models import Count
+images_by_popularity = Image.objects.annotate(
+likes=Count('users_like')).order_by('-likes')
+
+The preceding query can now be written as follows:
+
+images_by_popularity = Image.objects.order_by('-total_likes')
+
+This results in a less expensive SQL query.
+
+NB:
+Use signals with caution since they make it difficult to know the
+control flow. In many cases, you can avoid using signals if you
+know which receivers need to be notified.
+
+from images.models import Image
+for image in Image.objects.all():
+image.total_likes = image.users_like.count()
+image.save()
+
+--The likes count for each image is now up to date.

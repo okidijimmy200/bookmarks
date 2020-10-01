@@ -30,6 +30,12 @@ class Image(models.Model):
     # We use db_index=True so that Django creates an index in the
 # database for this field.
 
+# The total_likes field will allow you to store the total count of users who like each image
+    total_likes = models.PositiveIntegerField(db_index=True,
+                                            default=0)
+# '''Denormalizing counts is useful when you want to filter or order QuerySets
+# by them.'''
+
     def __str__(self):
         return self.title
 
