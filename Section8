@@ -164,3 +164,19 @@ project and add the following settings to it:
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 REDIS_DB = 0
+
+Lecture 5:
+Storing item views in Redis
+Let's find a way to store the total number of times an image has been viewed.
+--If you use Redis instead, you just need to increment
+a counter stored in memory, resulting in a much better performance and less
+overhead.
+--edit the views.py file
+
+--The convention for naming Redis keys is to use a colon sign as
+a separator for creating namespaced keys. By doing so, the key
+names are especially verbose and related keys share part of the
+same schema in their names.
+
+Lecture 9:
+Storing a ranking in Redis::

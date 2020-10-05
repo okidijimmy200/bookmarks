@@ -11,6 +11,13 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, \
                                  PageNotAnInteger
 from actions.utils import create_action
+import redis
+from django.conf import settings
+
+# connect to redis
+r = redis.Redis(host=settings.REDIS_HOST,
+                port=settings.REDIS_PORT,
+                db=settings.REDIS_DB)
 
 @login_required #prevent access for unauthenticated users.
 def image_create(request):
@@ -46,10 +53,20 @@ def image_create(request):
 # to display an image
 def image_detail(request, id, slug):
     image = get_object_or_404(Image, id=id, slug=slug)
+    # increment tota image views by 1
+# In this view, you use the incr command that increments the value of a given key by
+# 1. If the key doesn't exist, the incr command creates it. The incr() method returns
+# the final value of the key after performing the operation. total_views = r.incr(f'image:{image.id}:views') increment image ranking by 1
+# ------------------------------------------------------------------------------------------
+# You store the value in the total_views variable and pass it in the template context and you build the redis key using a notation eg object-type:id:field
+    total_views = r.incr(f'image:{image.id}:views')
+    # increment image ranking by 1
+    r.zincrby('image_ranking', 1, image.id)
     return render(request,
                     'images/image/detail.html',
                     {'section': 'images',
-                    'image': image})
+                    'image': image,
+                    'total_views': total_views})
 
 @ajax_required
 # view for users to like/unlike images
