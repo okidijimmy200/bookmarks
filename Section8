@@ -79,3 +79,88 @@ image.total_likes = image.users_like.count()
 image.save()
 
 --The likes count for each image is now up to date.
+
+
+Lecture 3:
+Using Redis for storing item views::
+---Redis is an advanced key/value database that allows you to save different types of
+data. It also has extremely fast I/O operations. Redis stores everything in memory,
+but the data can be persisted by dumping the dataset to disk every once in a while,
+or by adding each command to a log
+
+--Redis supports strings, hashes, lists, sets, ordered sets, and even bitmaps or
+HyperLogLogs.
+---Redis offers
+numerous advantages when dealing with rapidly changing data, volatile storage,
+or when a quick cache is needed.
+
+Installing Redis:
+
+The Redis client allows you to execute Redis commands directly from the shell.
+127.0.0.1:6379> SET name "Peter"
+OK
+
+--The preceding command creates a name key with the string value "Peter" in the
+Redis database. The OK output indicates that the key has been saved successfully
+
+retrieve the value
+
+127.0.0.1:6379> GET name
+"Peter"
+
+--You can also check whether a key exists using the EXISTS command. This command
+returns 1 if the given key exists, and 0 otherwise:
+
+127.0.0.1:6379> EXISTS name
+(integer) 1
+
+--You can set the time for a key to expire using the EXPIRE command, which allows
+you to set time-to-live in seconds. Another option is using the EXPIREAT command,
+which expects a Unix timestamp. Key expiration is useful for using Redis as a cache
+or to store volatile data:
+
+127.0.0.1:6379> GET name
+"Peter"
+127.0.0.1:6379> EXPIRE name 2
+(integer) 1
+Wait for two seconds and try to get the same key again:
+127.0.0.1:6379> GET name
+(nil)
+
+
+You can also delete any key using the DEL command, as follows:
+127.0.0.1:6379> SET total 1
+OK
+127.0.0.1:6379> DEL total
+(integer) 1
+127.0.0.1:6379> GET total
+(nil)
+
+Lecture 4:
+Using Redis with Python::
+install redis on python
+************pip install redis==3.4.1*************
+
+--The redis-py package interacts with Redis, providing a Python interface
+that follows the Redis command syntax.
+
+>>> import redis
+>>> r = redis.Redis(host='localhost', port=6379, db=0)
+
+--The preceding code creates a connection with the Redis database. In Redis, databases
+are identified by an integer index instead of a database name. By default, a client is
+connected to the database 0.
+
+Next, set a key using the Python shell:
+>>> r.set('foo', 'bar')
+True
+
+Now you can retrieve the key using the get() command:
+>>> r.get('foo')
+b'bar'
+
+--Let's integrate Redis into your project. Edit the settings.py file of the bookmarks
+project and add the following settings to it:
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0
