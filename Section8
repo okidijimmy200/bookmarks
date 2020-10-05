@@ -180,3 +180,25 @@ same schema in their names.
 
 Lecture 9:
 Storing a ranking in Redis::
+--Let's build something more complex with Redis. You will create a ranking of the
+most viewed images in your platform.
+--For building this ranking, you will use Redis
+sorted sets. A sorted set is a non-repeating collection of strings in which every
+member is associated with a score.Items are sorted by their score.
+
+When to use Redis
+• Counting: As you have seen, it is very easy to manage counters with Redis.
+You can use incr() and incrby() for counting stuff.
+• Storing latest items: You can add items to the start/end of a list using
+lpush() and rpush(). Remove and return the first/last element using
+lpop() / rpop(). You can trim the list's length using ltrim() to maintain
+its length.
+• Queues: In addition to push and pop commands, Redis offers the blocking
+of queue commands.
+• Caching: Using expire() and expireat() allows you to use Redis as
+a cache. You can also find third-party Redis cache backends for Django.
+• Pub/sub: Redis provides commands for subscribing/unsubscribing and
+sending messages to channels.
+• Rankings and leaderboards: Redis sorted sets with scores make it very easy
+to create leaderboards.
+• Real-time tracking: Redis's fast I/O makes it perfect for real-time scenarios

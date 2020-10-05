@@ -61,6 +61,11 @@ def image_detail(request, id, slug):
 # You store the value in the total_views variable and pass it in the template context and you build the redis key using a notation eg object-type:id:field
     total_views = r.incr(f'image:{image.id}:views')
     # increment image ranking by 1
+# You use the zincrby() command to store image views in a sorted set with the image:ranking key. You will store the image id and a related score of 1, which
+# will be added to the total score of this element in the sorted set.
+# ---------------------------------------------------------------------------------------------------
+# This will allow you to keep track of all image views globally and have a sorted set ordered by the total
+# number of views.
     r.zincrby('image_ranking', 1, image.id)
     return render(request,
                     'images/image/detail.html',
@@ -121,6 +126,25 @@ def image_list(request):
     return render(request,
                     'images/image/list.html',
                     {'section': 'images', 'images': images})
+
+# view to display the ranking of the most viewed images
+@login_required
+def image_ranking(request):
+    # get image ranking dictionary. You use the zrange() command to obtain the elements in the sorted
+    # You also specify desc=True to retrieve the elements ordered by descending score.
+    image_ranking = r.zrange('image_ranking', 0, -1, desc=True)[:10] #[:10] to slice 1st 10 elements
+# You build a list of returned image IDs and store it in the image_ranking_ids variable as a list of integers.
+# You retrieve the Image objects for those IDs and force the query to be executed using the list() function.
+    image_ranking_ids = [int(id) for id in image_ranking]
+    # get most viewed images
+# You sort the Image objects by their index of appearance in the image ranking.
+    most_viewed = list(Image.objects.filter(
+                           id__in=image_ranking_ids))
+    most_viewed.sort(key=lambda x: image_ranking_ids.index(x.id))
+    return render(request,
+                  'images/image/ranking.html',
+                  {'section': 'images',
+                   'most_viewed': most_viewed})
 
 
 
